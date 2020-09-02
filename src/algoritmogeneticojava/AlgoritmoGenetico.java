@@ -34,7 +34,6 @@ public class AlgoritmoGenetico {
                 this.tamCromossomo++;
             }// fim percurso no arquivo
             
-            System.out.println("Tam cromo:"+this.tamCromossomo);
            // this.tamCromossomo = desc_items.size();
         } catch (IOException e) {
             e.printStackTrace();
