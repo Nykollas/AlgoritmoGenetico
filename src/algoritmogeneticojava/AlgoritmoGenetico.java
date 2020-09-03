@@ -34,6 +34,7 @@ public class AlgoritmoGenetico {
                 this.tamCromossomo++;
             }// fim percurso no arquivo
             
+            System.out.println("Tamanho do cromossomo:"+this.tamCromossomo);
            // this.tamCromossomo = desc_items.size();
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,15 +42,24 @@ public class AlgoritmoGenetico {
     }
     
     //-------------------------
-   /* private Vector criaCromossomo(){
-           
+    private Vector criaCromossomo(){
+        Vector cromossomo = new Vector();
+        for(int i=0;i<this.tamCromossomo;i++){
+            if(Math.random()<0.6)
+                 cromossomo.add(0);
+            else
+                cromossomo.add(1);
+        }// fim for
+           return cromossomo;
     }
   //---------------------------------- 
     private void criaPopulacao(){
-        
+       populacao = new Vector();
+       for(int i=0; i<this.tamPopulacao;i++)
+           populacao.add(criaCromossomo());
     }
     //----------------------------------
-    private double fitness(Vector cromossomo) {
+    /* private double fitness(Vector cromossomo) {
         
     }
     //--------------------------------------
@@ -85,10 +95,11 @@ public class AlgoritmoGenetico {
      }*/
    //------------------------------------------  
     public void mostraPopulacao(){
-       
+        System.out.println("População\n"+populacao);
     }
     //-------------------------
-    public void executaAG(){      
+    public void executaAG(){ 
+           criaPopulacao();
            mostraPopulacao();
     }   // fim executa
     //--------------------------
@@ -100,7 +111,6 @@ public class AlgoritmoGenetico {
          this.qtdeCruzamentos = qtdeCruzamentos;
          this.capacidade = capacidade;
          this.carregaArquivo();
-         this.mostraPopulacao();
          
     }
     //----------------------------
