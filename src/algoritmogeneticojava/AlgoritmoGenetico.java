@@ -59,11 +59,25 @@ public class AlgoritmoGenetico {
            populacao.add(criaCromossomo());
     }
     //----------------------------------
-    /* private double fitness(Vector cromossomo) {
-        
+     private double fitness(Vector cromossomo) {
+        double peso=0, beneficio=0;
+        for(int i=0; i< this.tamCromossomo;i++){
+            int leva = (int)cromossomo.get(i);
+            if(leva==1){
+                Produto p = new Produto();
+                p = produtos.get(i);
+                peso+= p.getPeso();
+                beneficio+= p.getValor();
+            }// fim leva
+        }// fim for
+         if(peso<=this.capacidade)
+             return beneficio;
+         else
+             return 0;
     }
+     
     //--------------------------------------
-     protected int obterMelhor(){
+    /* protected int obterMelhor(){
 
     }// fim funcao
     //-------------------------------------------------    
@@ -95,7 +109,12 @@ public class AlgoritmoGenetico {
      }*/
    //------------------------------------------  
     public void mostraPopulacao(){
-        System.out.println("População\n"+populacao);
+        for(int i=0;i<this.tamPopulacao;i++){
+            System.out.println("Cromossomo "+ i + 
+                                populacao.get(i));
+            System.out.println("Avaliação: "+ 
+                          fitness((Vector)populacao.get(i)));
+        }// fim for
     }
     //-------------------------
     public void executaAG(){ 
