@@ -105,7 +105,7 @@ public class AlgoritmoGenetico {
         ip2 = torneio();
         p1 = populacao.get(ip1);
         p2 = populacao.get(ip2);
-        Random r = Random();
+        Random r = new Random();
         int pos = r.nextInt(this.tamCromossomo); // ponto de corte
         for(int i=0;i<=pos;i++){
             filho1.add(p1.get(i));
@@ -119,27 +119,60 @@ public class AlgoritmoGenetico {
         filhos.add(filho2);
         return filhos;
     }
-    //-----------------------------------------
+    //----------------------------------------
+     private void mutacao(Vector filho){
+       Random r = new Random();
+       int v = r.nextInt(100);
+       if(v<this.probMutacao){
+           int ponto = r.nextInt(this.tamCromossomo);
+           if((int)filho.get(ponto)==1)
+               filho.set(ponto,0);
+           else
+               filho.set(ponto,1);
+         System.out.println("Ocorreu mutação!");
+       }// fim if mutacao  
+     }
+ //--------------------------------------- 
+    protected int obterPior(){
+       int indicePior=0;
+         double pior,nota=0;
+        pior = fitness((Vector)populacao.get(0));
+        for(int i=1;i<this.tamPopulacao;i++){
+           nota = fitness((Vector)populacao.get(i));
+           if(nota < pior){
+               pior = nota;
+               indicePior = i;
+            }// fim if
+        }// fim for
+        return indicePior;
+    }// fim funcao
+    //---------------------------------
+     private void novaPopulacao(){
+       for(int i=0;i<this.qtdeCruzamentos;i++){
+           populacao.remove(obterPior());
+           populacao.remove(obterPior());
+       }
+     }
+ //--------------------------------
+     private void operadoresGeneticos(){
+         Vector f1,f2,filhos = new Vector();
+         for(int i=0;i<this.qtdeCruzamentos;i++){
+            filhos = cruzamento();
+            f1 = (Vector)filhos.get(0);
+            f2 = (Vector)filhos.get(1);
+            mutacao(f1);
+            mutacao(f2);
+            populacao.add(f1);
+            populacao.add(f2);
+         }
+     }
+   //------------------------------------------------
     /* protected int obterMelhor(){
 
     }// fim funcao
     //-------------------------------------------------    
-     protected int obterPior(){
-       
-    }// fim funcao
-    //------------------------------------------------
-     private void mutacao(Vector filho){
-       
-     }
-     //------------------------------------------
-    
-     private void novaPopulacao(){
-       
-     }
-     //--------------------------------
-     private void operadoresGeneticos(){
-         
-     }*/
+   
+*/
    //------------------------------------------  
     public void mostraPopulacao(){
         for(int i=0;i<this.tamPopulacao;i++){
@@ -152,11 +185,18 @@ public class AlgoritmoGenetico {
     //-------------------------
     public void executaAG(){ 
            criaPopulacao();
-           mostraPopulacao();
+           for(int i=0;i<this.numGeracoes;i++){
+            System.out.println("Geração "+ i);
+            mostraPopulacao();
+            operadoresGeneticos(); // Seleção - Cruzamento - Mutacao - Adicionando na população
+            novaPopulacao();
+           }
+           //int melhor = obterMelhor();
+           
     }   // fim executa
     //--------------------------
     public AlgoritmoGenetico(int numGeracoes,
-            int tamPopulacao,int probMutacao,int qtdeCruzamentos, double capacidade){
+         int tamPopulacao,int probMutacao,int qtdeCruzamentos, double capacidade){
          this.numGeracoes = numGeracoes;
          this.tamPopulacao = tamPopulacao;
          this.probMutacao = probMutacao;
@@ -166,9 +206,5 @@ public class AlgoritmoGenetico {
          
     }
     //----------------------------
-
-    private Random Random() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }// fim classe

@@ -15,7 +15,7 @@ public class Inicio {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int numGeracoes=50, tamPopulacao=30, 
+        int numGeracoes=20, tamPopulacao=30, 
         probMutacao=15, 
         qtdeCruzamentos=10; 
         double capacidade=6;
