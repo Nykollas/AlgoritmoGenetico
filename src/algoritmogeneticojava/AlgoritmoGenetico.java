@@ -167,12 +167,20 @@ public class AlgoritmoGenetico {
          }
      }
    //------------------------------------------------
-    /* protected int obterMelhor(){
-
-    }// fim funcao
-    //-------------------------------------------------    
+    protected int obterMelhor(){
+         int indiceMelhor=0;
+         double melhor,nota=0;
+        melhor = fitness((Vector)populacao.get(0));
+        for(int i=1;i<this.tamPopulacao;i++){
+           nota = fitness((Vector)populacao.get(i));
+           if(nota > melhor){
+               melhor = nota;
+               indiceMelhor = i;
+            }// fim if
+        }// fim for
+        return indiceMelhor;
+    }// fim funcao    
    
-*/
    //------------------------------------------  
     public void mostraPopulacao(){
         for(int i=0;i<this.tamPopulacao;i++){
@@ -185,14 +193,31 @@ public class AlgoritmoGenetico {
     //-------------------------
     public void executaAG(){ 
            criaPopulacao();
+           // Executando todas gerações
            for(int i=0;i<this.numGeracoes;i++){
             System.out.println("Geração "+ i);
             mostraPopulacao();
             operadoresGeneticos(); // Seleção - Cruzamento - Mutacao - Adicionando na população
             novaPopulacao();
            }
-           //int melhor = obterMelhor();
+           // Ao final do AG, mostrar o melhor
            
+           int ind_melhor = obterMelhor();
+           Vector melhor = new Vector();
+           melhor = populacao.get(ind_melhor);
+           System.out.println("Melhor Solução:"+melhor);
+           System.out.println("Avaliação do Melhor:"+fitness(melhor));
+           // percorrer a solução e mostrar os produtos
+           System.out.println("Produtos levados na mochilha:");
+           for(int i=0;i<this.tamCromossomo;i++){
+                int leva = (int)melhor.get(i);
+                if(leva==1){
+                 Produto p = new Produto();
+                 p= produtos.get(i);
+                 System.out.println(p.getDescrição() + 
+                         " Valor:"+p.getValor()+ " Peso:"+p.getPeso());
+              }// fim if
+           }// fim for
     }   // fim executa
     //--------------------------
     public AlgoritmoGenetico(int numGeracoes,
